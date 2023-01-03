@@ -1,0 +1,4 @@
+res://source/main.tscn
+res://resource/bit_resource/tileset/tilemap.tres
+res://source/object/tilemap_class.tscn
+res://source/object/tilemap.tscn

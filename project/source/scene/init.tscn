@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=3 uid="uid://c7s37j2i4bt4c"]
+
+[ext_resource type="Texture2D" uid="uid://bu85k5gv4l0xf" path="res://resource/graphics/logo/logo.png" id="1"]
+[ext_resource type="AudioStream" uid="uid://c33ah702gucnr" path="res://resource/audio/sound/kenney_interfacesounds/confirmation_004.ogg" id="2"]
+
+[sub_resource type="GDScript" id="1"]
+script/source = "
+extends Node2D
+
+func _ready():
+	$Audio/AnimationPlayer.play('init')
+	$Logo/AnimationPlayer.play('init')
+	$Mask/AnimationPlayer.play('init')
+	# await $Mask/AnimationPlayer.'animation_finished'
+	get_tree().change_scene_to_file('res://source/scene/start_menu.tscn')
+
+"
+
+[sub_resource type="Animation" id="2"]
+resource_name = "init"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rfgy3"]
+_data = {
+"init": SubResource("2")
+}
+
+[sub_resource type="Animation" id="3"]
+resource_name = "init"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e2yso"]
+_data = {
+"init": SubResource("3")
+}
+
+[sub_resource type="Animation" id="4"]
+resource_name = "init"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-80.0, 1.0, 1.0, -80.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q8bak"]
+_data = {
+"init": SubResource("4")
+}
+
+[node name="Init" type="Node2D"]
+script = SubResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = -6500.0
+offset_top = -4500.0
+offset_right = 8500.0
+offset_bottom = 5500.0
+color = Color(0, 0, 0, 1)
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Logo"]
+libraries = {
+"": SubResource("AnimationLibrary_rfgy3")
+}
+
+[node name="Mask" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0.666667)
+offset_left = -6500.0
+offset_top = -4500.0
+offset_right = 8500.0
+offset_bottom = 5500.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mask"]
+libraries = {
+"": SubResource("AnimationLibrary_e2yso")
+}
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2")
+volume_db = 1.0
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Audio"]
+libraries = {
+"": SubResource("AnimationLibrary_q8bak")
+}
